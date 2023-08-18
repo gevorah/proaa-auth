@@ -6,5 +6,10 @@ export default {
   semi: false,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: 'none'
+  trailingComma: 'none',
+
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: ['^@/(.*)$', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true
 }
