@@ -12,6 +12,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
 
     "rootDir": "src",
     "outDir": "dist",

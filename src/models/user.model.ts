@@ -1,27 +1,26 @@
 import { hash } from 'bcrypt'
+import { randomUUID } from 'crypto'
 import { Schema, model } from 'mongoose'
 
-type User = {
-  name: string
-  email: string
-  password: string
-}
+import type { User } from './user.dto'
 
-const userSchema = new Schema<User>(
+const UserSchema = new Schema<User>(
   {
+    _id: { type: String, default: randomUUID, required: true },
     name: { type: String, required: true },
     email: {
       type: String,
       required: true,
+      lowercase: true,
       trim: true,
       index: { unique: true }
     },
     password: { type: String, required: true }
   },
-  { timestamps: true, versionKey: false }
+  { collection: 'users', timestamps: true, versionKey: false }
 )
 
-userSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   const user = this
   if (!user.isModified('password')) {
     return next()
@@ -30,4 +29,4 @@ userSchema.pre('save', async function (next) {
   next()
 })
 
-export default model<User>('User', userSchema)
+export const UserModel = model<User>('User', UserSchema)

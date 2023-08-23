@@ -1,6 +1,5 @@
 import app from './app'
 import config from './configs/general.config'
-import './configs/mongo.config'
 import logger from './utils/logger'
 
 const { HOST, PORT } = config
