@@ -26,4 +26,5 @@ class UserReq implements Pick<User, 'name' | 'email' | 'password'> {
 
 type UserRes = Omit<User, 'password'>
 
-export { type User, UserReq, type UserRes }
+export { UserReq }
+export type { User, UserRes }

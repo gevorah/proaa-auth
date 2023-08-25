@@ -20,13 +20,15 @@ const UserSchema = new Schema<User>(
   { collection: 'users', timestamps: true, versionKey: false }
 )
 
-UserSchema.pre('save', async function (next) {
-  const user = this
-  if (!user.isModified('password')) {
+UserSchema.pre('save', userPreSaveHook)
+
+async function userPreSaveHook(this: any, next: () => void) {
+  if (!this.isModified('password')) {
     return next()
   }
-  user.password = await hash(user.password, 10)
+  this.password = await hash(this.password, 10)
   next()
-})
+}
 
 export const UserModel = model<User>('User', UserSchema)
+export { userPreSaveHook }
