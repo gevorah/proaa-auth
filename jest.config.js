@@ -2,7 +2,7 @@
 export default {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
-  testMatch: ['<rootDir>/src/**/*.test.ts'],
+  testMatch: ['<rootDir>/test/**/*.test.ts'],
   coverageDirectory: './coverage',
   coverageThreshold: {
     global: {

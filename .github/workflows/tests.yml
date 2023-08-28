@@ -6,6 +6,11 @@ on:
   pull_request:
     branches:
       - main
+env:
+  MONGO_URI: test
+  MONGO_USER: 
+  MONGO_PASS: 
+  JWT_SECRET: test
 jobs:
   test-workflow:
     runs-on: ubuntu-latest
@@ -17,6 +22,12 @@ jobs:
         with: 
           node-version: '18'
           cache: 'yarn'
+      - name: Load MongoDB binary cache
+        id: cache-mongodb-binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/mongodb-binaries
+          key: tests
       - name: Set up modules
         run: yarn install --immutable
       - name: Lint

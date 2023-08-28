@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 type Env = {
+  NODE_ENV?: string
   MONGO_URI?: string
   MONGO_USER?: string
   MONGO_PASS?: string
@@ -10,16 +11,18 @@ type Env = {
   JWT_SECRET?: string
 }
 
-type Config = Required<Env>
+type Config = Readonly<Required<Env>>
 
 const env: Env = {
+  NODE_ENV: process.env.NODE_ENV,
+
   MONGO_URI: process.env.MONGO_URI,
   MONGO_USER: process.env.MONGO_USER,
   MONGO_PASS: process.env.MONGO_PASS,
 
-  HOST: process.env.HOST,
+  HOST: process.env.HOST || 'localhost',
   PORT: Number(process.env.PORT) || 3000,
-  CONTEXT_PATH: process.env.CONTEXT_PATH,
+  CONTEXT_PATH: process.env.CONTEXT_PATH || '',
 
   JWT_SECRET: process.env.JWT_SECRET
 }

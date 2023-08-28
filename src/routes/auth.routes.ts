@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { signUp } from '../controllers/auth.controller'
-import { userExists } from '../middleware/user.middleware'
+import { userExists } from '../middleware/auth.middleware'
 
 const router = Router()
 

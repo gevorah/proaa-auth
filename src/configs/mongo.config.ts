@@ -6,12 +6,10 @@ import config from './general.config'
 
 const { MONGO_URI, MONGO_USER, MONGO_PASS } = config
 
-const mongoConnect = async () => {
+const connectDb = async () => {
   try {
-    await connect(MONGO_URI, {
-      user: MONGO_USER,
-      pass: MONGO_PASS
-    })
+    const options = { user: MONGO_USER, pass: MONGO_PASS }
+    await connect(MONGO_URI, options)
     logger.info('Successfully connected to the database.')
   } catch (error) {
     const message = `Error establishing a database connection. ${error}`
@@ -19,4 +17,4 @@ const mongoConnect = async () => {
   }
 }
 
-export { mongoConnect }
+export { connectDb }

@@ -8,4 +8,4 @@ const home = async (req: Request, res: Response) => {
   })
 }
 
-export default home
+export { home }

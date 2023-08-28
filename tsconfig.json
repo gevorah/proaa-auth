@@ -14,11 +14,10 @@
     "verbatimModuleSyntax": true,
     "experimentalDecorators": true,
 
-    "rootDir": "src",
     "outDir": "dist",
     "baseUrl": "./",
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,
