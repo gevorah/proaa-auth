@@ -2,10 +2,8 @@ name: Tests
 on:
   push:
     branches:
-      - develop
+      - 'feature/**'
   pull_request:
-    branches:
-      - main
 env:
   MONGO_URI: test
   MONGO_USER: 
