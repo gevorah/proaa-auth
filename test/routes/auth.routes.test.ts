@@ -2,7 +2,7 @@ import request from 'supertest'
 
 import app from '../../src/app'
 import config from '../../src/configs/general.config'
-import { UserModel } from '../../src/models/user.model'
+import User from '../../src/models/user.model'
 import { clearDb, closeDb, connectDb } from '../utils/db'
 
 beforeAll(() => {
@@ -26,7 +26,7 @@ const mockUser = {
   updatedAt: 'date.now'
 }
 
-UserModel.create = jest.fn().mockReturnValue(mockUser)
+User.create = jest.fn().mockReturnValue(mockUser)
 
 const user = {
   name: 'Pandorah',
@@ -37,7 +37,7 @@ const user = {
 describe('The Auth Routes', () => {
   describe('POST /auth/signup', () => {
     it('should register a user', async () => {
-      UserModel.findOne = jest.fn().mockReturnValueOnce(null)
+      User.findOne = jest.fn().mockReturnValueOnce(null)
 
       const res = await request(app)
         .post(`${CONTEXT_PATH}/auth/signup`)
@@ -47,7 +47,7 @@ describe('The Auth Routes', () => {
       expect(res.body).not.toHaveProperty('password')
     })
     it('should not create a user and throw an error when email is not unique', async () => {
-      UserModel.findOne = jest.fn().mockReturnValueOnce(user)
+      User.findOne = jest.fn().mockReturnValueOnce(user)
 
       const res = await request(app)
         .post(`${CONTEXT_PATH}/auth/signup`)
