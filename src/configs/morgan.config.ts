@@ -1,9 +1,10 @@
-import logger from '../utils/logger'
 import morgan from 'morgan'
 
-const morganMiddleware = morgan(
-  ':method :url :status :response-time ms - :res[content-length]',
-  //':remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms',
+import logger from '../utils/logger'
+
+const morganLogger = morgan(
+  ':method :url :status :response-time ms - :res[content-length]', // dev
+  //':remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms', // short
   {
     stream: {
       write: message => logger.http(message)
@@ -11,4 +12,4 @@ const morganMiddleware = morgan(
   }
 )
 
-export default morganMiddleware
+export default morganLogger

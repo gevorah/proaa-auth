@@ -1,28 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020"],
+    "target": "ES2022",
+    "lib": ["ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
 
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
 
-    "rootDir": "src",
     "outDir": "dist",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules"],
   "ts-node": {
-    "require": ["tsconfig-paths/register"],
     "esm": true,
-    "experimentalSpecifierResolution": "node"
+    "files": true,
+    "experimentalSpecifierResolution": "node",
   }
 }
