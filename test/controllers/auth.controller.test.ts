@@ -30,12 +30,13 @@ describe('The Auth Controller', () => {
   describe('Sign Up', () => {
     it('should return a user', async () => {
       const User = require('../../src/models/user.model')
-      User.create.mockResolvedValue({ ...user, password: undefined })
+      const modelUser = { ...user, password: undefined }
+      User.create.mockResolvedValue(modelUser)
 
       await signUp(req(user), res, next)
 
       expect(res.status).toHaveBeenCalledWith(201)
-      expect(res.json).toHaveBeenCalled()
+      expect(res.json).toHaveBeenCalledWith(modelUser)
     })
   })
 
