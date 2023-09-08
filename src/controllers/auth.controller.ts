@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 
+import { SignInError } from '../models/auth.error'
 import HttpError from '../models/http.error'
 import { type UserDto } from '../models/user.dto'
 import User from '../models/user.model'
@@ -22,10 +23,10 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
-    if (!user) return next(new HttpError(404, 'User not found'))
+    if (!user) return next(new SignInError())
 
-    const matchPassword = user.comparePassword(password)
-    if (!matchPassword) next(new HttpError(401, 'Invalid password'))
+    const matchPassword = await user.comparePassword(password)
+    if (!matchPassword) return next(new SignInError())
 
     res.status(200).json({ message: 'Logged In' })
   } catch (error) {

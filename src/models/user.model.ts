@@ -5,7 +5,7 @@ import { Model, Schema, model } from 'mongoose'
 import type { User } from './user.dto'
 
 type UserMethods = {
-  comparePassword(password: string): string
+  comparePassword(password: string): Promise<boolean>
 }
 
 type UserModel = Model<User, {}, UserMethods>

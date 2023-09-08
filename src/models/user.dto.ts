@@ -24,7 +24,5 @@ class UserDto implements Pick<User, 'name' | 'email' | 'password'> {
   }
 }
 
-type UserRes = Omit<User, 'password'>
-
-export type { User, UserRes }
+export type { User }
 export { UserDto }

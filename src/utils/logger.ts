@@ -1,5 +1,9 @@
 import { createLogger, format, transports } from 'winston'
 
+import config from '../configs/general.config'
+
+const { NODE_ENV } = config
+
 const logFormat = format.combine(
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
   format.colorize({ all: true }),
@@ -28,8 +32,12 @@ const logger = createLogger({
   transports: logTransports
 })
 
-if (process.env.NODE_ENV == 'development') {
+if (NODE_ENV === 'development') {
   logger.transports.forEach(transport => (transport.level = 'debug'))
+}
+
+if (NODE_ENV === 'test') {
+  logger.transports.forEach(transport => (transport.level = 'warn'))
 }
 
 export default logger

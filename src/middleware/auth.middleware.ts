@@ -8,7 +8,7 @@ const userExists = async (req: Request, res: Response, next: NextFunction) => {
   const { email }: UserDto = req.body
 
   const user = await User.findOne({ email })
-  if (!user) next()
+  if (!user) return next()
 
   const message = `An account with the email address ${email} already exists.`
   next(new HttpError(400, message))

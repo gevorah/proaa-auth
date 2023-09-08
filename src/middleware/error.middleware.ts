@@ -11,7 +11,7 @@ const errorHandler = (
 ) => {
   const { status, message } = err
   logger.error(message)
-  res.status(status).send({ status, message })
+  res.status(status).json({ status, message })
 }
 
 export default errorHandler
