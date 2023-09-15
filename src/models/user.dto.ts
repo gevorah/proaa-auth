@@ -9,7 +9,7 @@ type User = {
   updatedAt: string
 }
 
-class UserReq implements Pick<User, 'name' | 'email' | 'password'> {
+class UserDto implements Pick<User, 'name' | 'email' | 'password'> {
   @IsString()
   name: string
   @IsEmail()
@@ -24,7 +24,5 @@ class UserReq implements Pick<User, 'name' | 'email' | 'password'> {
   }
 }
 
-type UserRes = Omit<User, 'password'>
-
-export { UserReq }
-export type { User, UserRes }
+export type { User }
+export { UserDto }

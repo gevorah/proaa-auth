@@ -1,10 +1,16 @@
-import { hash } from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 import { randomUUID } from 'crypto'
-import { Schema, model } from 'mongoose'
+import { Model, Schema, model } from 'mongoose'
 
 import type { User } from './user.dto'
 
-const UserSchema = new Schema<User>(
+type UserMethods = {
+  comparePassword(password: string): Promise<boolean>
+}
+
+type UserModel = Model<User, {}, UserMethods>
+
+const UserSchema = new Schema<User, UserModel, UserMethods>(
   {
     _id: { type: String, default: randomUUID, required: true },
     name: { type: String, required: true },
@@ -21,14 +27,16 @@ const UserSchema = new Schema<User>(
 )
 
 UserSchema.pre('save', userPreSaveHook)
+UserSchema.method('comparePassword', userComparePassword)
 
 async function userPreSaveHook(this: any, next: () => void) {
-  if (!this.isModified('password')) {
-    return next()
-  }
+  if (!this.isModified('password')) return next()
   this.password = await hash(this.password, 10)
   next()
 }
+async function userComparePassword(this: any, password: string) {
+  return await compare(password, this.password)
+}
 
-export const UserModel = model<User>('User', UserSchema)
-export { userPreSaveHook }
+export default model<User, UserModel>('User', UserSchema)
+export { userPreSaveHook, userComparePassword }
