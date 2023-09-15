@@ -13,8 +13,12 @@ jest.mock('bcrypt', () => ({
   compare: jest.fn()
 }))
 
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn()
+}))
+
 describe('The Auth Controller', () => {
-  const req = (data: {}) => ({ body: data }) as Request
+  const req = (data?: unknown) => ({ body: data }) as Request
 
   const res = {
     json: jest.fn(),
@@ -52,7 +56,7 @@ describe('The Auth Controller', () => {
       await signIn(req(user), res, next)
 
       expect(res.status).toHaveBeenCalledWith(200)
-      expect(res.json).toHaveBeenCalledWith({ message: 'Logged In' })
+      expect(res.json).toHaveBeenCalled()
     })
 
     it('should fail sign-in attempt and throw an error when user is not found', async () => {

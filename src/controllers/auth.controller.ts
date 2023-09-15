@@ -44,16 +44,4 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-  const bearer = req.headers.authorization
-  if (!bearer) return next(new HttpError(401, 'JWT token is missing'))
-
-  const [, token] = bearer.split(' ')
-
-  jwt.verify(token, config.JWT_SECRET, (error, decoded) => {
-    if (error) return next(new HttpError(401, error.message))
-    res.status(200).json(decoded)
-  })
-}
-
-export { signUp, signIn, verifyToken }
+export { signUp, signIn }
