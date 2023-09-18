@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload, type VerifyCallback } from 'jsonwebtoken'
 
 import config from '../configs/general.config'
 import HttpError from '../models/http.error'
@@ -16,6 +16,20 @@ const userExists = async (req: Request, res: Response, next: NextFunction) => {
   next(new HttpError(400, message))
 }
 
+type PrivateReq = Request & {
+  payload: jwt.JwtPayload
+}
+
+const isJwtPayload = (
+  decoded: string | jwt.JwtPayload
+): decoded is jwt.JwtPayload => {
+  return !!decoded && typeof decoded === 'object' && 'id' in decoded
+}
+
+const isJwtError = (error: unknown): error is jwt.VerifyErrors => {
+  return !!error && typeof error === 'object' && 'message' in error
+}
+
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization
   if (!authorization) return next(new HttpError(401, 'JWT token is missing'))
@@ -26,12 +40,21 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET)
-    res.status(200).json(decoded)
+    if (!isJwtPayload(decoded))
+      return next(new HttpError(401, 'Unauthorized token'))
+
+    const payload = ((req as PrivateReq).payload = decoded)
+
+    const user = await User.findById(payload.id, {
+      password: 0
+    })
+    if (!user) return next(new HttpError(401, 'No user found'))
+
     next()
   } catch (error) {
-    const { message } = error as jwt.VerifyErrors
-    next(new HttpError(401, message))
+    if (isJwtError(error)) next(new HttpError(401, error.message))
   }
 }
 
 export { userExists, verifyToken }
+export type { PrivateReq }

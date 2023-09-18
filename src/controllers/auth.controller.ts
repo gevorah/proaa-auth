@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
 import config from '../configs/general.config'
+import type { PrivateReq } from '../middleware/auth.middleware'
 import { SignInError } from '../models/auth.error'
 import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
@@ -30,13 +31,9 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     const matchPassword = await user.comparePassword(password)
     if (!matchPassword) return next(new SignInError())
 
-    const token = jwt.sign(
-      { id: user._id, name: user.name },
-      config.JWT_SECRET,
-      {
-        expiresIn: 60 * 60
-      }
-    )
+    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
+      expiresIn: 60 * 60
+    })
 
     res.status(200).json({ token })
   } catch (error) {
@@ -44,4 +41,10 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export { signUp, signIn }
+const verify = async (req: Request, res: Response, next: NextFunction) => {
+  const payload = (req as PrivateReq).payload
+  res.status(200).json(payload)
+  next()
+}
+
+export { signUp, signIn, verify }

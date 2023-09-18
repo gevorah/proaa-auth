@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 
-import { signIn, signUp } from '../../src/controllers/auth.controller'
+import { signIn, signUp, verify } from '../../src/controllers/auth.controller'
+import type { PrivateReq } from '../../src/middleware/auth.middleware'
 import { SignInError } from '../../src/models/auth.error'
 import { user } from '../utils/user'
 
@@ -83,6 +84,17 @@ describe('The Auth Controller', () => {
       expect(next).toHaveBeenCalledWith(expect.any(SignInError))
       expect(res.status).not.toHaveBeenCalled()
       expect(res.json).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('Verify', () => {
+    it('should return a jwt payload', async () => {
+      const req = { payload: {} } as PrivateReq
+
+      await verify(req, res, next)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith(req.payload)
     })
   })
 })
