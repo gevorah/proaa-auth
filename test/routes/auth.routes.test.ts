@@ -51,8 +51,7 @@ describe('The Auth Routes', () => {
         .post(`${CONTEXT_PATH}/auth/signin`)
         .send(user)
       expect(res.status).toBe(200)
-      expect(res.body).toHaveProperty('message')
-      expect(res.body).toEqual({ message: 'Logged In' })
+      expect(res.body).toHaveProperty('token')
     })
 
     it('should fail sign-in attempt and throw an error when user is not found', async () => {
@@ -72,6 +71,49 @@ describe('The Auth Routes', () => {
       const res = await request(app)
         .post(`${CONTEXT_PATH}/auth/signin`)
         .send(user)
+      expect(res.status).toBe(401)
+      expect(res.body).toHaveProperty('status')
+      expect(res.body).toHaveProperty('message')
+    })
+  })
+
+  describe('GET /auth/verify', () => {
+    it('should resolve token validation', async () => {
+      await User.create(user)
+      const token = await request(app)
+        .post(`${CONTEXT_PATH}/auth/signin`)
+        .send(user)
+        .then(res => {
+          return res.body.token
+        })
+
+      const res = await request(app)
+        .get(`${CONTEXT_PATH}/auth/verify`)
+        .set({ Authorization: 'Bearer ' + token })
+      expect(res.status).toBe(200)
+      expect(res.body).toHaveProperty('id')
+    })
+
+    it('should throw an error when empty authorization header', async () => {
+      const res = await request(app).get(`${CONTEXT_PATH}/auth/verify`)
+      expect(res.status).toBe(401)
+      expect(res.body).toHaveProperty('status')
+      expect(res.body).toHaveProperty('message')
+    })
+
+    it('should throw an error when unauthorized token', async () => {
+      const res = await request(app)
+        .get(`${CONTEXT_PATH}/auth/verify`)
+        .set({ Authorization: 'Basic token' })
+      expect(res.status).toBe(401)
+      expect(res.body).toHaveProperty('status')
+      expect(res.body).toHaveProperty('message')
+    })
+
+    it('should throw an error when invalid token', async () => {
+      const res = await request(app)
+        .get(`${CONTEXT_PATH}/auth/verify`)
+        .set({ Authorization: 'Bearer token' })
       expect(res.status).toBe(401)
       expect(res.body).toHaveProperty('status')
       expect(res.body).toHaveProperty('message')
