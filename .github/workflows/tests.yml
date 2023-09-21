@@ -9,8 +9,8 @@ env:
   MONGO_USER: 
   MONGO_PASS: 
   JWT_SECRET: test
-  FB_APP_ID:
-  FB_APP_SECRET:
+  FB_APP_ID: test
+  FB_APP_SECRET: test
 jobs:
   test-workflow:
     runs-on: ubuntu-latest
