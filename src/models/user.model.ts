@@ -21,7 +21,8 @@ const UserSchema = new Schema<User, UserModel, UserMethods>(
       trim: true,
       index: { unique: true }
     },
-    password: { type: String, required: true }
+    password: { type: String },
+    provider: { type: String }
   },
   { collection: 'users', timestamps: true, versionKey: false }
 )

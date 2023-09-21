@@ -1,12 +1,11 @@
 import type { NextFunction, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 
-import config from '../configs/general.config'
 import type { PrivateReq } from '../middleware/auth.middleware'
-import { SignInError } from '../models/auth.error'
+import { InvalidCredentials } from '../models/auth.error'
 import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
 import User from '../models/user.model'
+import { createToken } from '../utils/jwt'
 
 const signUp = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,14 +25,12 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
-    if (!user) return next(new SignInError())
+    if (!user) return next(new InvalidCredentials())
 
     const matchPassword = await user.comparePassword(password)
-    if (!matchPassword) return next(new SignInError())
+    if (!matchPassword) return next(new InvalidCredentials())
 
-    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
-      expiresIn: 60 * 60
-    })
+    const token = createToken({ id: user._id })
 
     res.status(200).json({ token })
   } catch (error) {

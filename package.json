@@ -23,6 +23,9 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
     "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
+    "passport-facebook-token": "^4.0.0",
     "winston": "^3.10.0"
   },
   "devDependencies": {
@@ -34,6 +37,9 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.4.5",
+    "@types/passport": "^1.0.12",
+    "@types/passport-facebook": "^3.0.0",
+    "@types/passport-facebook-token": "^0.4.35",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

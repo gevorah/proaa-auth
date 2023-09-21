@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from 'express'
-import jwt, { type JwtPayload, type VerifyCallback } from 'jsonwebtoken'
 
-import config from '../configs/general.config'
 import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
 import User from '../models/user.model'
+import { decodeToken, isJwtError, isJwtPayload } from '../utils/jwt'
+import type { PrivateReq } from '../utils/jwt'
 
 const userExists = async (req: Request, res: Response, next: NextFunction) => {
   const { email }: UserDto = req.body
@@ -16,20 +16,6 @@ const userExists = async (req: Request, res: Response, next: NextFunction) => {
   next(new HttpError(400, message))
 }
 
-type PrivateReq = Request & {
-  payload: jwt.JwtPayload
-}
-
-const isJwtPayload = (
-  decoded: string | jwt.JwtPayload
-): decoded is jwt.JwtPayload => {
-  return !!decoded && typeof decoded === 'object' && 'id' in decoded
-}
-
-const isJwtError = (error: unknown): error is jwt.VerifyErrors => {
-  return !!error && typeof error === 'object' && 'message' in error
-}
-
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization
   if (!authorization) return next(new HttpError(401, 'JWT token is missing'))
@@ -39,7 +25,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError(401, 'Unauthorized token'))
 
   try {
-    const decoded = jwt.verify(token, config.JWT_SECRET)
+    const decoded = decodeToken(token)
     if (!isJwtPayload(decoded))
       return next(new HttpError(401, 'Unauthorized token'))
 
