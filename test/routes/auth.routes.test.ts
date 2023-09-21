@@ -91,7 +91,7 @@ describe('The Auth Routes', () => {
         .get(`${CONTEXT_PATH}/auth/verify`)
         .set({ Authorization: 'Bearer ' + token })
       expect(res.status).toBe(200)
-      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('_id')
     })
 
     it('should throw an error when empty authorization header', async () => {

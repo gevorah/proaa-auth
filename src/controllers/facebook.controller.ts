@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from 'express'
-import passport from 'passport'
 
 import HttpError from '../models/http.error'
 import type { User } from '../models/user.dto'

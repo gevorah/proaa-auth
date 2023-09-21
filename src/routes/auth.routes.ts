@@ -8,9 +8,10 @@ import { facebookAuth } from '../middleware/facebook.middleware'
 const router = Router()
 
 router.post('/signup', [userExists], signUp)
-router.post('/signin', signIn)
-router.get('/verify', [verifyToken], verify)
 
+router.post('/signin', signIn)
 router.post('/facebook', [facebookAuth], fbLogin)
+
+router.get('/verify', [verifyToken], verify)
 
 export default router

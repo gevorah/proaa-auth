@@ -24,7 +24,7 @@ type PrivateReq = Request & {
 const isJwtPayload = (
   decoded: string | jwt.JwtPayload
 ): decoded is jwt.JwtPayload => {
-  return !!decoded && typeof decoded === 'object' && 'id' in decoded
+  return !!decoded && typeof decoded === 'object' && '_id' in decoded
 }
 
 const isJwtError = (error: unknown): error is jwt.VerifyErrors => {
