@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 
+import { UnauthorizedToken } from '../models/auth.error'
 import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
 import User from '../models/user.model'
@@ -18,20 +19,18 @@ const userExists = async (req: Request, res: Response, next: NextFunction) => {
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization
-  if (!authorization) return next(new HttpError(401, 'JWT token is missing'))
+  if (!authorization) return next(new HttpError(401, 'Missing token'))
 
   const [bearer, token] = authorization.split(' ')
-  if (bearer.toLowerCase() !== 'bearer')
-    return next(new HttpError(401, 'Unauthorized token'))
+  if (bearer.toLowerCase() !== 'bearer') return next(new UnauthorizedToken())
 
   try {
     const decoded = decodeToken(token)
-    if (!isJwtPayload(decoded))
-      return next(new HttpError(401, 'Unauthorized token'))
+    if (!isJwtPayload(decoded)) return next(new UnauthorizedToken())
 
     const payload = ((req as PrivateReq).payload = decoded)
 
-    const user = await User.findById(payload.id, {
+    const user = await User.findById(payload._id, {
       password: 0
     })
     if (!user) return next(new HttpError(401, 'No user found'))

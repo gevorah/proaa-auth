@@ -2165,15 +2165,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/oauth@npm:*":
-  version: 0.9.2
-  resolution: "@types/oauth@npm:0.9.2"
-  dependencies:
-    "@types/node": "*"
-  checksum: defd4fb2a20912f74d53212cec31161cd8589622f241a5cae9fcdec3f024c71e316f5d0e40dc00934de4a937b259473c2ac6fad78de1be79b7ae7dc4b5814ff0
-  languageName: node
-  linkType: hard
-
 "@types/passport-facebook-token@npm:^0.4.35":
   version: 0.4.35
   resolution: "@types/passport-facebook-token@npm:0.4.35"
@@ -2181,28 +2172,6 @@ __metadata:
     "@types/express": "*"
     "@types/passport": "*"
   checksum: fab8dd774b2154aeaa4529565fd536f1263a110e7d92db95a7774366089e0e7cbe0d30a0a7a8dc0ff086b7af323e2e877a61028f5a99937327f923b1a1a5b45e
-  languageName: node
-  linkType: hard
-
-"@types/passport-facebook@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@types/passport-facebook@npm:3.0.0"
-  dependencies:
-    "@types/express": "*"
-    "@types/passport": "*"
-    "@types/passport-oauth2": "*"
-  checksum: ef41441ae112b0bd8e4cf549a34faf7682aaa0eb7975b15b023b5d4ef1925012b277a6d04e81f8f9b0b29e33d37f9c23774e4e586cbfcb9303cb49565cf04d8a
-  languageName: node
-  linkType: hard
-
-"@types/passport-oauth2@npm:*":
-  version: 1.4.12
-  resolution: "@types/passport-oauth2@npm:1.4.12"
-  dependencies:
-    "@types/express": "*"
-    "@types/oauth": "*"
-    "@types/passport": "*"
-  checksum: ff39f486529420d624c776835c54e46cc91c110b9620a96679e9a6391c330ff613f5ae5e3232317b1a7c05591652e906caf51d2d30b2bc28e50c8c3a3e5cf14d
   languageName: node
   linkType: hard
 
@@ -7025,15 +6994,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-facebook@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "passport-facebook@npm:3.0.0"
-  dependencies:
-    passport-oauth2: 1.x.x
-  checksum: f70598738537b39b914845a202b8d7b86ece56e2e1de6e723f74337c69445664ef2503e449a90ad63329f59440ceeb7920f5825123e725db8935531f251df142
-  languageName: node
-  linkType: hard
-
 "passport-oauth1@npm:1.x.x":
   version: 1.3.0
   resolution: "passport-oauth1@npm:1.3.0"
@@ -7238,7 +7198,6 @@ __metadata:
     "@types/morgan": ^1.9.4
     "@types/node": ^20.4.5
     "@types/passport": ^1.0.12
-    "@types/passport-facebook": ^3.0.0
     "@types/passport-facebook-token": ^0.4.35
     "@types/supertest": ^2.0.12
     "@typescript-eslint/eslint-plugin": ^6.0.0
@@ -7262,7 +7221,6 @@ __metadata:
     morgan: ^1.10.0
     nodemon: ^3.0.1
     passport: ^0.6.0
-    passport-facebook: ^3.0.0
     passport-facebook-token: ^4.0.0
     prettier: ^3.0.1
     supertest: ^6.3.3

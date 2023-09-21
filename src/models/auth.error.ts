@@ -6,4 +6,10 @@ class InvalidCredentials extends HttpError {
   }
 }
 
-export { InvalidCredentials }
+class UnauthorizedToken extends HttpError {
+  constructor() {
+    super(401, 'Unauthorized token')
+  }
+}
+
+export { InvalidCredentials, UnauthorizedToken }

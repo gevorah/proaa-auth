@@ -11,7 +11,7 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data: UserDto = req.body
 
-    const user = await User.create({ ...data })
+    const user = await User.create({ ...data, provider: 'email' })
     data.password = user.password = undefined!
 
     res.status(201).json(user)
@@ -30,7 +30,7 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
     const matchPassword = await user.comparePassword(password)
     if (!matchPassword) return next(new InvalidCredentials())
 
-    const token = createToken({ id: user._id })
+    const token = createToken({ _id: user._id })
 
     res.status(200).json({ token })
   } catch (error) {
