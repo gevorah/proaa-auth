@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 
-import type { PrivateReq } from '../middleware/auth.middleware'
-import { InvalidCredentials } from '../models/auth.error'
+import { InvalidCredentials, UnauthorizedToken } from '../models/auth.error'
 import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
 import User from '../models/user.model'
@@ -39,8 +38,8 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const verify = async (req: Request, res: Response, next: NextFunction) => {
-  const payload = (req as PrivateReq).payload
-  res.status(200).json(payload)
+  if (!req.user) return next(new UnauthorizedToken())
+  res.status(200).json(req.user)
   next()
 }
 

@@ -5,9 +5,7 @@ import config from '../configs/general.config'
 
 const { JWT_SECRET } = config
 
-type Payload = string | object
-
-const createToken = (payload: Payload) => {
+const createToken = (payload: string | object) => {
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: 60 * 60
   })
@@ -15,10 +13,6 @@ const createToken = (payload: Payload) => {
 
 const decodeToken = (token: string) => {
   return jwt.verify(token, JWT_SECRET)
-}
-
-type PrivateReq = Request & {
-  payload: jwt.JwtPayload
 }
 
 const isJwtPayload = (
@@ -32,4 +26,3 @@ const isJwtError = (error: unknown): error is jwt.VerifyErrors => {
 }
 
 export { createToken, decodeToken, isJwtPayload, isJwtError }
-export type { PrivateReq }

@@ -5,7 +5,6 @@ import HttpError from '../models/http.error'
 import type { UserDto } from '../models/user.dto'
 import User from '../models/user.model'
 import { decodeToken, isJwtError, isJwtPayload } from '../utils/jwt'
-import type { PrivateReq } from '../utils/jwt'
 
 const userExists = async (req: Request, res: Response, next: NextFunction) => {
   const { email }: UserDto = req.body
@@ -28,9 +27,9 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     const decoded = decodeToken(token)
     if (!isJwtPayload(decoded)) return next(new UnauthorizedToken())
 
-    const payload = ((req as PrivateReq).payload = decoded)
+    req.user = decoded
 
-    const user = await User.findById(payload._id, {
+    const user = await User.findById(decoded._id, {
       password: 0
     })
     if (!user) return next(new HttpError(401, 'No user found'))
@@ -42,4 +41,3 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 export { userExists, verifyToken }
-export type { PrivateReq }
