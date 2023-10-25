@@ -10,8 +10,8 @@ describe('The Home Routes', () => {
     it('should return api description', async () => {
       const res = await request(app).get(`${CONTEXT_PATH}/`)
       expect(res.status).toBe(200)
-      expect(res.body).toHaveProperty('message')
-      expect(res.body).toHaveProperty('name')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('description')
       expect(res.body).toHaveProperty('version')
     })
   })

@@ -2,9 +2,9 @@ import type { Request, Response } from 'express'
 
 const home = async (req: Request, res: Response) => {
   res.status(200).json({
-    message: 'Welcome to PROAA Auth',
-    name: 'proaa-auth',
-    version: '0.0.0'
+    title: 'PROAA Auth API',
+    description: 'Welcome to PROAA Auth API',
+    version: 'v1'
   })
 }
 
