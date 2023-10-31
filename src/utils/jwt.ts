@@ -1,4 +1,3 @@
-import type { Request } from 'express'
 import jwt from 'jsonwebtoken'
 
 import config from '../configs/general.config'
